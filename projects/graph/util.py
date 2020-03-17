@@ -7,6 +7,7 @@ class Queue():
         self.queue.append(value)
     def dequeue(self):
         if self.size() > 0:
+            #O(n) porque tengo que mover todo desde el beginning
             return self.queue.pop(0)
         else:
             return None
