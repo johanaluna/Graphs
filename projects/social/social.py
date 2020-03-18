@@ -1,12 +1,19 @@
+from util import Stack, Queue
+import itertools
+import random
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
         self.last_id = 0
         self.users = {}
         self.friendships = {}
+
+    def get_friends(self, user_id):
+        return self.friendships[user_id]
 
     def add_friendship(self, user_id, friend_id):
         """
@@ -42,11 +49,27 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
+
         # !!!! IMPLEMENT ME
-
         # Add users
-
+        # Write a for loop that calls create user the right amount of times
+        for i in range(num_users):
+            self.add_user(f"User {i+1}")
         # Create friendships
+        # To create N random friendships,
+        # you could create a list with all possible friendship combinations,
+        # shuffle the list, then grab the first N elements from the list.
+        possible_friendships = []
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+        random.shuffle(possible_friendships)
+        # Create n friendships where n = avg_friendships * num_users // 2
+        # avg_friendships = total_friendships / num_users
+        # total_friendships = avg_friendships * num_users
+        for i in range(num_users * avg_friendships // 2):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
 
     def get_all_social_paths(self, user_id):
         """
@@ -59,9 +82,26 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # Create an empty queue
+        queue = Queue()
+        #add from in the back 
+        # path is an array of lists
+        queue.enqueue([user_id])
+        # Make a set to keep track of vertices visited
+        
+        while queue.size() > 0:
+            path = queue.dequeue()
+            # pop from the front
+            vertex = path[-1]
+            if vertex not in visited:
+                visited[vertex]=path
+                for friend in self.get_friends(vertex):
+                    # Add the edge to the queue/stack
+                    new_path = path.copy()
+                    new_path.append(friend)
+                    queue.enqueue(new_path)
         return visited
-
-
+    
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)

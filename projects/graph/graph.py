@@ -68,7 +68,7 @@ class Graph:
         """
         # Create an empty stack
         stack = Stack()
-        # Put the starting point in the queue
+        # Put the starting point in the stack
         stack.push(starting_vertex)
         # Make a set to keep track of vertices visited
         visited = set()
