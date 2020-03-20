@@ -74,6 +74,7 @@ class Graph:
         visited = set()
         # While queue is not empty
         while stack.size() > 0:
+            print()
             # Pop the first item
             vertex = stack.pop()
             # If vertex has not been visited

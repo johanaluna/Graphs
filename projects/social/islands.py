@@ -22,7 +22,6 @@ def island_counter(matrix):
                     # increment visited count
                     island_count += 1
     return island_count
-​
 def dft(start_row, start_col, matrix, visited):
     # Create a stack
     s = Stack()

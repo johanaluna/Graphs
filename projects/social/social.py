@@ -59,11 +59,16 @@ class SocialGraph:
         # To create N random friendships,
         # you could create a list with all possible friendship combinations,
         # shuffle the list, then grab the first N elements from the list.
-        possible_friendships = []
-        for user_id in self.users:
-            for friend_id in range(user_id + 1, self.last_id + 1):
-                possible_friendships.append((user_id, friend_id))
-        random.shuffle(possible_friendships)
+        
+        # possible_friendships = []
+        # for user_id in self.users:
+        #     for friend_id in range(user_id + 1, self.last_id + 1):
+        #         possible_friendships.append((user_id, friend_id))
+        # random.shuffle(possible_friendships)
+        
+        friendships= list(itertools.combinations(range(1,num_users+1), avg_friendships)) 
+        random.shuffle(friendships)      
+        possible_friendships=friendships
         # Create n friendships where n = avg_friendships * num_users // 2
         # avg_friendships = total_friendships / num_users
         # total_friendships = avg_friendships * num_users
@@ -86,9 +91,7 @@ class SocialGraph:
         queue = Queue()
         #add from in the back 
         # path is an array of lists
-        queue.enqueue([user_id])
-        # Make a set to keep track of vertices visited
-        
+        queue.enqueue([user_id])    
         while queue.size() > 0:
             path = queue.dequeue()
             # pop from the front
@@ -105,6 +108,8 @@ class SocialGraph:
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
-    print(sg.friendships)
+    print('\nFriendships')
+    [print(key, value) for key, value in sg.friendships.items()]
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print('\nConnections')
+    [print(key, value) for key, value in connections.items()]
